@@ -59,32 +59,40 @@ button:disabled{opacity:0.6;cursor:not-allowed;}
 </div>
 <script>
 let nowTag = "学生";
-// 【警告：仅本地自用，上传GitHub务必删除密钥！】
-const API_KEY = "你的大模型API密钥";
-const API_URL = "模型接口地址";
-const SYSTEM_PROMPT = `你是三思集多智能体协同决策系统，主打「温暖稳妥、可溯源、适配认知、零门槛、有温度」的核心服务理念，严格执行以下强制规则：
-1、严格区分客观事实与主观推测，可核验内容标注溯源来源，无法核验内容明确标注存疑，绝对禁止编造资料、链接、论据与数据；
-2、自动识别用户身份、使用场景与认知层级，精准匹配对应内容深浅、专业度与通俗话术，实现千人千面自适应输出；
-3、所有回答必须固定分为【高可信稳妥共识】【多角度分歧争议】【仅供参考存疑内容】三段，分段清晰，不要合并；
-4、针对思辨能力薄弱的普通用户，自动生成通俗阅读指引，明确最优参考内容、适用场景与使用风险，降低甄别门槛；
-5、识别简短、模糊、信息缺失的碎片化提问，全自动补全场景与背景信息；
-6、整体输出风格温柔克制、通俗易懂，拒绝冰冷机械话术。
-当前用户场景：`;
+// 公开仓库禁用密钥，本地使用再自行填入
+const API_KEY = "";
+const API_URL = "";
+const SYSTEM_PROMPT = "你是三思集多智能体协同决策系统，主打「温暖稳妥、可溯源、适配认知、零门槛、有温度」的核心服务理念，严格执行以下强制规则：\
+1、严格区分客观事实与主观推测，可核验内容标注溯源来源，无法核验内容明确标注存疑，绝对禁止编造资料、链接、论据与数据；\
+2、自动识别用户身份、使用场景与认知层级，精准匹配对应内容深浅、专业度与通俗话术，实现千人千面自适应输出；\
+3、所有回答必须固定分为【高可信稳妥共识】【多角度分歧争议】【仅供参考存疑内容】三段，分段清晰，不要合并；\
+4、针对思辨能力薄弱的普通用户，自动生成通俗阅读指引，明确最优参考内容、适用场景与使用风险，降低甄别门槛；\
+5、识别简短、模糊、信息缺失的碎片化提问，全自动补全场景与背景信息；\
+6、整体输出风格温柔克制、通俗易懂，拒绝冰冷机械话术。\
+当前用户场景：";
 
 function setTag(dom,tag){
-    document.querySelectorAll('.tag-item').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.tag-item').forEach(function(x){
+        x.classList.remove('active');
+    });
     dom.classList.add('active');
     nowTag = tag;
 }
 
 async function send(){
+    let chat = document.getElementById('chat');
+    // 公开页面无密钥，直接提示
+    if(!API_KEY || !API_URL){
+        chat.innerHTML = chat.innerHTML + '<div style="color:#E89494;">当前为在线演示版，接口已关闭，本地部署填入API密钥后才可提问</div>';
+        return;
+    }
+
     let q = document.getElementById('q').value.trim();
     const sendBtn = document.getElementById('sendBtn');
-    const chat = document.getElementById('chat');
     if(!q)return;
     sendBtn.disabled = true;
-    chat.innerHTML += `<div style="margin:10px 0;"><b>我：</b>${q}</div>`;
-    chat.innerHTML += `<div class="loading" id="loading">三思集多智能体核验中，请稍候...</div>`;
+    chat.innerHTML = chat.innerHTML + '<div style="margin:10px 0;"><b>我：</b>' + q + '</div>';
+    chat.innerHTML = chat.innerHTML + '<div class="loading" id="loading">三思集多智能体核验中，请稍候...</div>';
     chat.scrollTop = chat.scrollHeight;
 
     try{
@@ -92,11 +100,11 @@ async function send(){
             method:"POST",
             headers:{
                 "Content-Type":"application/json",
-                "Authorization":`Bearer ${API_KEY}`
+                "Authorization":"Bearer " + API_KEY
             },
             body:JSON.stringify({
                 messages:[
-                    {role:"system",content:SYSTEM_PROMPT+nowTag},
+                    {role:"system",content:SYSTEM_PROMPT + nowTag},
                     {role:"user",content:q}
                 ],
                 model:"gpt-3.5-turbo",
@@ -106,9 +114,8 @@ async function send(){
         const data = await res.json();
         document.getElementById('loading').remove();
         const fullText = data.choices[0].message.content;
-        // 拆分三段内容
         let high="",diff="",warn="";
-        if(fullText.includes("高可信稳妥共识")&&fullText.includes("多角度分歧争议")&&fullText.includes("仅供参考存疑内容")){
+        if(fullText.indexOf("高可信稳妥共识") > -1 && fullText.indexOf("多角度分歧争议") > -1 && fullText.indexOf("仅供参考存疑内容") > -1){
             high = fullText.split("多角度分歧争议")[0].replace("高可信稳妥共识：","").trim();
             diff = fullText.split("多角度分歧争议")[1].split("仅供参考存疑内容")[0].trim();
             warn = fullText.split("仅供参考存疑内容")[1].trim();
@@ -117,19 +124,18 @@ async function send(){
             diff = "不同视角下适配方案存在差异，可结合自身场景取舍";
             warn = "建议结合权威资料二次核验";
         }
-        chat.innerHTML += `
-        <div class="answer-box">
-            <div class="guide">💡 阅读指引：系统已根据【${nowTag}】自动适配内容深度，优先参考高可信稳妥结论</div>
-            <div class="high"><b>✅ 高可信稳妥共识结论</b><p>${high}</p></div>
-            <div class="diff"><b>⚖️ 多视角观点分歧（通俗解读）</b><p>${diff}</p></div>
-            <div class="warn"><b>⚠️ 仅供参考存疑内容</b><p>${warn}</p></div>
-            <div class="tag-auto">自动归档标签：${nowTag}｜多智能体核验｜可溯源复盘</div>
-            <div class="slogan-footer">三思集 · 你的每一种困惑都值得认真斟酌</div>
-        </div>
-        `
+        chat.innerHTML = chat.innerHTML +
+        '<div class="answer-box">' +
+            '<div class="guide">💡 阅读指引：系统已根据【' + nowTag + '】自动适配内容深度，优先参考高可信稳妥结论</div>' +
+            '<div class="high"><b>✅ 高可信稳妥共识结论</b><p>' + high + '</p></div>' +
+            '<div class="diff"><b>⚖️ 多视角观点分歧（通俗解读）</b><p>' + diff + '</p></div>' +
+            '<div class="warn"><b>⚠️ 仅供参考存疑内容</b><p>' + warn + '</p></div>' +
+            '<div class="tag-auto">自动归档标签：' + nowTag + '｜多智能体核验｜可溯源复盘</div>' +
+            '<div class="slogan-footer">三思集 · 你的每一种困惑都值得认真斟酌</div>' +
+        '</div>';
     }catch(err){
         document.getElementById('loading').remove();
-        chat.innerHTML += `<div style="color:#E89494;">接口请求失败，请检查API密钥与网络</div>`
+        chat.innerHTML = chat.innerHTML + '<div style="color:#E89494;">接口请求失败，请检查API密钥与网络</div>';
     }
     document.getElementById('q').value = '';
     sendBtn.disabled = false;
