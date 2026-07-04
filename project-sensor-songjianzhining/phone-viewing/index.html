@@ -3,14 +3,25 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>极简适老化健康管理平台</title>
-<!-- Tailwind CSS -->
-<script src="https://modao.cc/agent-py/static/source/js/tailwindcss.js"></script>
-<!-- Iconify 图标 -->
-<script src="https://modao.cc/agent-py/static/source/js/iconify-icon.min.js"></script>
-<!-- ECharts -->
-<script src="https://modao.cc/agent-py/static/source/js/echarts.min.js"></script>
+<!-- 替换为稳定公共CDN，解决modao.cc加载失败问题 -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<style>
+/* 你的原有全部CSS样式保留不动 */
+        /* 手机尺寸（默认）：全屏 */
+        body {
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+            background-color: #FFF8F0;
+            color: #2D2D2D;
+            -webkit-tap-highlight-color: transparent;
+            width: 100%;
+            max-width: 100%;
+            padding: 0;
+            margin: 0;
+        }
 <style>
         /* 手机尺寸（默认）：全屏 */
         body {
