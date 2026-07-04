@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>松间知宁 · 岁月安然 · 全周期老年康养平台</title>
+    <style>
+        /* ========================================
+        松间知宁 完整修复版 页面空白/模块不显示/图表失效修复
+        ========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", PingFangSC, sans-serif;
+            background-color: #F6F9F7;
+            color: #303834;
+            line-height: 2.05;
+            letter-spacing: 0.5px;
+            opacity: 0;
+            animation: bodyFadeIn 0.8s ease-in-out forwards;
+        }
+        @keyframes bodyFadeIn {
+            from{opacity: 0;}
+            to{opacity: 1;}
+        }
+        
+        :root {
+            --primary: #68AD89;
+            --primary-light: #EEF6F2;
+            --primary-deep: #549474;
+            --assist-warm: #EFCFA8;
+            --text-main: #2C332F;
+            --text-normal: #55605B;
+            --text-light: #88948E;
+            --bg-white: #FFFFFF;
+            --border-light: #E2E9E5;
+            --shadow-soft: 0 2px 18px rgba(104, 173, 137, 0.06);
+            --shadow-hover: 0 8px 24px rgba(104, 173, 137, 0.15);
+            --blue: #4285F4;
+            --orange: #FF9529;
+            --purple: #723ed8;
+            --pink: #e83e8c;
+            --dark-purple: #9C27B0;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1240px;
+            margin: 0 auto;
+        }
+
+        /* 导航松树Logo */
+        header {
+            background: var(--bg-white);
+            box-shadow: var(--shadow-soft);
+            padding: 22px 0;
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            transition: background 0.4s ease, box-shadow 0.4s ease;
+        }
+        header.scroll-active {
+            background: rgba(255,255,255,0.97);
+            box-shadow: 0 4px 20px rgba(104, 173, 137, 0.08);
+        }
+        header.scroll-active .logo-text {
+            color: var(--primary-deep);
+        }
+
+        .nav-wrap {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+        .logo-tree {
+            width: 36px;
+            height: 36px;
+            background: var(--primary);
+            clip-path: polygon(50% 0, 0 100%, 100% 100%);
+            position: relative;
+        }
+        .logo-tree::after {
+            content: "";
+            width: 14px;
+            height: 22px;
+            background: #8B6A48;
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .logo-text {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 1px;
+            transition: color 0.4s ease;
+        }
+        .nav-item.active{
+            color: var(--primary-deep);
+            border-bottom: 3px solid var(--primary);
+        }
+
+        .nav-item {
+            font-size: 19px;
+            color: var(--text-main);
+            text-decoration: none;
+            margin-left: 38px;
+            transition: color 0.25s ease;
+            padding: 8px 0;
+            position: relative;
+        }
+
+        .nav-item:hover {
+            color: var(--primary-deep);
+        }
+
+        /* Banner 匹配截图浅薄荷底色，SVG老人插画透明度0.45清晰可见 */
+        .banner {
+            background: linear-gradient(135deg, #dceee6 0%, #e7f3ef 100%);
+            padding: 72px 0;
+            margin: 24px 0;
+            border-radius: 22px;
+            text-align: center;
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            overflow: hidden;
+        }
+        .banner::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: radial-gradient(rgba(104,173,137,0.12) 0%, transparent 70%);
+            animation: slow-float 14s ease-in-out infinite alternate;
+            z-index: 1;
+        }
+        .banner-elder-bg {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.45;
+            animation: slow-float 18s ease-in-out infinite alternate;
+            z-index: 0;
+            pointer-events: none;
+        }
+        @keyframes slow-float {
+            0% { transform: translateY(-8px); }
+            100% { transform: translateY(8px); }
+        }
+
+        .banner h1 {
+            font-size: 40px;
+            color: var(--text-main);
+            margin-bottom: 16px;
+            font-weight: 600;
+            position: relative;
+            z-index: 2;
+        }
+
+        .banner p {
+            font-size: 21px;
+            color: var(--text-normal);
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 通用模块基础样式 */
+        .module {
+            background: var(--bg-white);
+            border-radius: 22px;
+            padding: 48px;
+            margin: 36px 0;
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-soft);
+            /* 先取消初始透明，修复加载空白 */
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .module.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .module h2 {
+            font-size: 30px;
+            color: var(--primary-deep);
+            border-left: 8px solid var(--primary);
+            padding-left: 14px;
+            margin-bottom: 24px;
+            font-weight: 600;
+        }
+        /* 社区活动一级标题统一放大字号 */
+        .module > li > strong {
+            font-size: 24px;
+            display: block;
+            margin: 12px 0 8px;
+        }
+
+        .module p {
+            font-size: 20px;
+            color: var(--text-normal);
+            margin: 16px 0;
+        }
+        .module ul {
+            padding-left: 28px;
+            font-size: 20px;
+            color: var(--text-normal);
+        }
+        .module li {
+            margin: 12px 0;
+            line-height: 2;
+        }
+
+        /* 健康档案预览区域 */
+        .health-preview-wrap {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 36px;
+            margin: 32px 0;
+            align-items: stretch;
+        }
+        .user-avatar-card {
+            background: var(--primary-light);
+            border-radius: 20px;
+            padding: 32px;
+            text-align: center;
+            border: 1px solid var(--border-light);
+        }
+        .avatar-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--primary);
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 42px;
+        }
+        .data-chart-box {
+            background: var(--primary-light);
+            border-radius: 20px;
+            padding: 32px;
+            border: 1px solid var(--border-light);
+        }
+        /* 修复血压折线：加粗线条、加深填充，曲线清晰可见 */
+        .chart-line {
+            height: 140px;
+            position: relative;
+            margin: 20px 0;
+            background: linear-gradient(to bottom, transparent 40%, rgba(104,173,137,0.35) 40%);
+            background-size: 100% 10px;
+            background-repeat: repeat-x;
+        }
+        .chart-line::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary-deep), transparent);
+            clip-path: polygon(0 68%, 12% 42%, 26% 66%, 42% 26%, 58% 50%, 74% 34%, 88% 42%, 100% 28%);
+            opacity: 0.45;
+        }
+        .chart-line::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            border-top: 4px solid var(--primary-deep);
+            clip-path: polygon(0 68%, 12% 42%, 26% 66%, 42% 26%, 58% 50%, 74% 34%, 88% 42%, 100% 28%);
+        }
+        .health-tag-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+        .health-tag {
+            padding: 6px 16px;
+            background: #fff;
+            border-radius: 99px;
+            font-size: 17px;
+            color: var(--primary-deep);
+            border: 1px solid var(--primary);
+        }
+
+        /* 康养服务卡片分点布局 */
+        .card-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            margin-top: 38px;
+        }
+
+        .card {
+            background: var(--primary-light);
+            padding: 36px;
+            border-radius: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.35s ease;
+            border: 1px solid transparent;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-hover);
+            background: #e6f3ee;
+            border-color: var(--primary-light);
+        }
+
+        .card h3 {
+            font-size: 24px;
+            color: var(--text-main);
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+        .card ul {
+            padding-left: 20px;
+            font-size: 18px;
+            color: var(--text-normal);
+        }
+        .card li {
+            margin: 8px 0;
+            line-height: 1.9;
+        }
+
+        /* 社区活动词云：统一尺寸、居中对齐，字号规范 */
+        .word-cloud-block {
+            background: var(--primary-light);
+            border-radius: 16px;
+            padding: 24px;
+            margin: 16px 0 24px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            justify-content: center;
+            align-items: center;
+        }
+        .word-tag {
+            padding: 6px 16px;
+            border-radius: 99px;
+            font-size: 18px;
+            text-align: center;
+            white-space: nowrap;
+        }
+        .word-tag.lg {
+            background: var(--primary-deep);
+            color: #fff;
+            font-size: 22px;
+        }
+        .word-tag.md {
+            background: var(--primary);
+            color: #fff;
+            font-size: 20px;
+        }
+        .word-tag.sm {
+            background: #fff;
+            color: var(--primary-deep);
+            border:1px solid var(--primary);
+            font-size: 18px;
+        }
+
+        /* 个人中心 - 大数据看板面板：完整彩色折线/饼/柱状/频次图 */
+        .data-dashboard-wrap {
+            background: var(--primary-light);
+            border-radius: 20px;
+            padding: 32px;
+            margin: 24px 0;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 20px;
+        }
+        .dash-top-item {
+            background: #fff;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 20px;
+        }
+        .dash-top-item:nth-child(1){border-top:4px solid var(--blue);}
+        .dash-top-item:nth-child(2){border-top:4px solid var(--orange);}
+        .dash-top-item:nth-child(3){border-top:4px solid var(--primary);}
+        .dash-top-item:nth-child(4){border-top:4px solid var(--purple);}
+        .dash-top-item:nth-child(5){border-top:4px solid var(--pink);}
+        .dash-top-item:nth-child(6){border-top:4px solid var(--dark-purple);}
+        .dash-big-wrap {
+            grid-column: 1 / span 6;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+        .dash-block {
+            background: #fff;
+            padding: 20px;
+            border-radius: 16px;
+            min-height: 220px;
+        }
+        /* 折线图 */
+        .line-chart-box {
+            height: 160px;
+            position: relative;
+            background: linear-gradient(to bottom, transparent 30%, rgba(66,133,244,0.15) 30%);
+            margin-top:16px;
+        }
+        .line-chart-box::after {
+            content:"";
+            position:absolute;
+            width:100%;
+            height:100%;
+            border-top:3px solid var(--blue);
+            clip-path: polygon(0 70%,15% 40%,30% 60%,45% 25%,60% 45%,75% 30%,90% 50%,100% 35%);
+        }
+        /* 饼图 */
+        .pie-chart-box {
+            width:140px;
+            height:140px;
+            border-radius:50%;
+            background: conic-gradient(var(--primary) 40%, var(--orange) 40% 65%, var(--purple) 65% 85%, var(--pink) 85%);
+            margin:16px auto;
+            position:relative;
+        }
+        .pie-chart-box::after {
+            content:"";
+            width:90px;
+            height:90px;
+            border-radius:50%;
+            background:#fff;
+            position:absolute;
+            top:50%;
+            left:50%;
+            transform:translate(-50%,-50%);
+        }
+        /* 柱状图 */
+        .bar-chart-box {
+            height:160px;
+            display:flex;
+            align-items:flex-end;
+            justify-content:space-around;
+            gap:8px;
+            margin-top:16px;
+        }
+        .bar-chart-box span {
+            width:18%;
+            background:var(--primary);
+            border-radius:4px 4px 0 0;
+        }
+        .bar-chart-box span:nth-child(1){height:40%;background:var(--blue);}
+        .bar-chart-box span:nth-child(2){height:70%;background:var(--orange);}
+        .bar-chart-box span:nth-child(3){height:50%;background:var(--primary);}
+        .bar-chart-box span:nth-child(4){height:85%;background:var(--purple);}
+        .bar-chart-box span:nth-child(5){height:60%;background:var(--pink);}
+        /* 下方小饼图行 */
+        .dash-small-row {
+            grid-column: 1 / span 6;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .small-pie {
+            width:100px;
+            height:100px;
+            border-radius:50%;
+            background: conic-gradient(var(--primary-deep) 55%, #ddd 55%);
+            margin:12px auto;
+            position:relative;
+        }
+        .small-pie::after {
+            content:"";
+            width:60px;
+            height:60px;
+            border-radius:50%;
+            background:#fff;
+            position:absolute;
+            top:50%;
+            left:50%;
+            transform:translate(-50%,-50%);
+        }
+
+        /* 长效运营4阶阶梯流程图 */
+        .operate-step-wrap {
+            margin: 32px 0;
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            position: relative;
+        }
+        .step-item {
+            width: 22%;
+            text-align: center;
+            position: relative;
+        }
+        .step-box {
+            height: 100px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 16px;
+            position: relative;
+        }
+        .step-box.step1 {
+            background: linear-gradient(135deg,#ff9529,#ffb260);
+            height: 100px;
+        }
+        .step-box.step2 {
+            background: linear-gradient(135deg,#e83e8c,#f078b0);
+            height: 130px;
+        }
+        .step-box.step3 {
+            background: linear-gradient(135deg,#723ed8,#986cf0);
+            height: 160px;
+        }
+        .step-box.step4 {
+            background: linear-gradient(135deg,#30b8b0,#76e0d8);
+            height: 190px;
+        }
+        .step-desc {
+            font-size: 18px;
+            color: var(--text-main);
+            padding: 0 8px;
+        }
+        .step-line {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            width: 2px;
+            height: 30px;
+            background: var(--primary-deep);
+        }
+        .step-icon {
+            position: absolute;
+            top: -38px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary-deep);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        /* 底部 */
+        footer {
+            text-align: center;
+            padding: 42px 0;
+            margin-top: 60px;
+            font-size: 17px;
+            color: var(--text-light);
+            border-top: 1px solid var(--border-light);
+            background: var(--bg-white);
+        }
+
+        /* 无障碍动效按钮 */
+        .motion-switch {
+            position: fixed;
+            top: 24px;
+            right: 4%;
+            padding: 9px 18px;
+            border-radius: 99px;
+            border: 1px solid var(--border-light);
+            background: var(--bg-white);
+            color: var(--text-normal);
+            font-size: 16px;
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s ease;
+        }
+        .motion-switch:hover{
+            background: var(--primary-light);
+        }
+        body.reduce-motion * {
+            animation: none !important;
+            transition: none !important;
+        }
+
+        /* 适老化悬浮客服按钮 */
+        .assist-btn {
+            position: fixed;
+            bottom: 36px;
+            right: 4%;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .help-fixed {
+            padding: 12px 20px;
+            background: var(--primary-deep);
+            color: #fff;
+            border: none;
+            border-radius: 99px;
+            font-size: 17px;
+            cursor: pointer;
+            box-shadow: var(--shadow-soft);
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 992px) {
+            .card-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .banner h1 {
+                font-size: 36px;
+            }
+            .health-preview-wrap {
+                grid-template-columns: 1fr;
+            }
+            .operate-step-wrap {
+                flex-direction: column;
+                gap: 40px;
+                align-items: center;
+            }
+            .step-item {
+                width: 80%;
+            }
+            .dash-big-wrap, .dash-small-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 768px) {
+            .card-list {
+                grid-template-columns: 1fr;
+            }
+            .nav-item {
+                margin-left: 16px;
+                font-size: 17px;
+            }
+            .banner h1 {
+                font-size: 32px;
+            }
+            .module {
+                padding: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 无障碍动效开关 + 悬浮客服按钮 -->
+    <button class="motion-switch" id="motionBtn">减弱动画</button>
+    <div class="assist-btn">
+        <button class="help-fixed">📞 一键客服求助</button>
+    </div>
+
+    <!-- 顶部导航栏 -->
+    <header>
+        <div class="container nav-wrap">
+            <div class="logo">
+                <div class="logo-tree"></div>
+                <div class="logo-text">松间知宁</div>
+            </div>
+            <nav>
+                <a href="#" class="nav-item active">首页</a>
+                <a href="#health" class="nav-item">健康档案</a>
+                <a href="#service" class="nav-item">康养服务</a>
+                <a href="#activity" class="nav-item">社区活动</a>
+                <a href="#user" class="nav-item">个人中心</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Banner 完整全身老人松林SVG，底色匹配截图浅薄荷 -->
+        <div class="banner">
+            <svg class="banner-elder-bg" viewBox="0 0 1775 960" preserveAspectRatio="xMidYMid slice">
+                <!-- 飞鸟 -->
+                <path fill="#549474" fill-opacity="0.45" d="M260,80 L268,72 L276,80 M640,90 L648,82 L656,90 M700,100 L708,92 L716,100 M740,140 L748,132 L756,140 M1160,60 L1168,52 L1176,60 M1440,70 L1448,62 L1456,70 M1500,58 L1508,50 L1516,58 M1560,110 L1568,102 L1576,110"/>
+                <!-- 远景整片松林 -->
+                <path fill="#68AD89" fill-opacity="0.38" d="M0,320 L40,300 L70,330 L110,270 L150,340 L190,250 L230,350 L270,280 L310,335 L350,265 L390,345 L430,290 L470,338 L510,275 L550,350 L590,260 L630,342 L670,285 L710,336 L750,272 L790,348 L830,258 L870,339 L910,282 L950,344 L990,266 L1030,333 L1070,278 L1110,340 L1150,262 L1190,335 L1230,288 L1270,342 L1310,270 L1350,338 L1390,292 L1430,345 L1470,276 L1510,332 L1550,286 L1590,341 L1630,268 L1670,336 L1710,290 L1750,330 L1775,310 L1775,480 L0,480 Z"/>
+                <!-- 左侧完整躺椅看报老人全身 -->
+                <g fill="#549474" fill-opacity="0.42">
+                    <rect x="50" y="660" width="130" height="180" rx="6"/>
+                    <circle cx="102" cy="690" r="24"/>
+                    <rect x="82" y="720" width="42" height="58"/>
+                    <rect x="70" y="780" width="65" height="22"/>
+                    <rect x="65" y="830" width="30" height="26"/>
+                    <rect x="110" y="830" width="30" height="26"/>
+                </g>
+                <!-- 中间相伴老年夫妻全身 -->
+                <g fill="#549474" fill-opacity="0.42">
+                    <circle cx="240" cy="740" r="36"/>
+                    <rect x="218" y="776" width="44" height="72"/>
+                    <rect x="222" y="848" width="36" height="30"/>
+                    <circle cx="302" cy="736" r="34"/>
+                    <rect x="278" y="772" width="48" height="76"/>
+                    <rect x="282" y="848" width="40" height="30"/>
+                </g>
+                <!-- 圆桌下棋喝茶四位老人完整身形 -->
+                <g fill="#549474" fill-opacity="0.42">
+                    <circle cx="398" cy="728" r="32"/>
+                    <rect x="376" y="764" width="44" height="68"/>
+                    <rect x="380" y="832" width="36" height="28"/>
+                    <circle cx="448" cy="662" r="34"/>
+                    <rect x="424" y="698" width="46" height="62"/>
+                    <rect x="428" y="760" width="38" height="28"/>
+                    <circle cx="508" cy="652" r="36"/>
+                    <rect x="484" y="688" width="48" height="70"/>
+                    <rect x="488" y="768" width="40" height="28"/>
+                    <circle cx="538" cy="742" r="34"/>
+                    <rect x="514" y="778" width="46" height="66"/>
+                    <rect x="518" y="844" width="38" height="28"/>
+                    <ellipse cx="472" cy="802" rx="56" ry="32"/>
+                </g>
+                <!-- 右侧亲密老年夫妇全身 -->
+                <g fill="#549474" fill-opacity="0.42">
+                    <circle cx="702" cy="732" r="42"/>
+                    <rect x="668" y="772" width="68" height="86"/>
+                    <rect x="672" y="858" width="56" height="32"/>
+                    <circle cx="778" cy="752" r="38"/>
+                    <rect x="748" y="792" width="62" height="78"/>
+                    <rect x="752" y="862" width="52" height="32"/>
+                </g>
+                <!-- 右下角完整松枝 -->
+                <path fill="#549474" fill-opacity="0.42" d="M1420,680 Q1480,660 1560,670 Q1620,662 1680,650 L1672,690 Q1600,702 1540,710 Q1460,722 1410,740 Q1400,710 1420,680 M1440,700 L1460,730 M1470,690 L1490,720 M1500,685 L1520,715 M1540,695 L1560,725 M1600,688 L1620,718"/>
+            </svg>
+            <h1>松间知宁 · 让岁月安然，让晚年舒心</h1>
+            <p>人文适老化大屏设计｜安全加密健康档案｜全周期温情康养｜社区普惠便民服务</p>
+        </div>
+
+        <!-- 产品理念 -->
+        <div class="module">
+            <h2>产品设计理念</h2>
+            <p>松间知宁是一款<strong>人机协同、人文关怀向</strong>网页端专属老年全周期健康管理平台。区别于市面商业化、工具化冰冷康养产品，平台主打「松间静谧、简易安心、温情陪伴、普惠便民」核心产品内核。依托PC电脑大屏视野清晰、键鼠操作舒缓的天然优势，针对性解决老年群体看不清、学不会、怕诈骗、缺陪伴、无专业养护指导五大行业痛点。</p>
+            <p>平台摒弃行业泛滥的弹窗广告、营销推送、功能堆砌乱象，以社区公信力为底层信任底座，结合轻量化AI辅助康养能力、标准化电子健康台账、线上线下联动服务闭环；打造低操作门槛、高数据安全、强人文温度的适老化康养产品，用温和数字化科技，守护长者安稳松弛的晚年生活。</p>
+        </div>
+
+        <!-- 健康档案：加粗加深血压折线，曲线清晰可见 -->
+        <div class="module" id="health">
+            <h2>健康档案 · 全维度加密长者电子台账</h2>
+            <p>平台一人一档加密存储，支持家属授权查阅，大屏可视化展示，下方为档案界面模拟预览：</p>
+
+            <div class="health-preview-wrap">
+                <div class="user-avatar-card">
+                    <div class="avatar-circle">李</div>
+                    <h3>李爷爷</h3>
+                    <p>72岁｜自理老人</p>
+                    <div class="health-tag-row">
+                        <span class="health-tag">高血压慢病</span>
+                        <span class="health-tag">季度体检</span>
+                        <span class="health-tag">家属授权查看</span>
+                    </div>
+                </div>
+                <div class="data-chart-box">
+                    <h3>近半年血压趋势曲线</h3>
+                    <div class="chart-line"></div>
+                    <p>自动同步家用血压仪数据，异常指标红色高亮预警，AI自动生成月度健康小结，推送复查提醒。</p>
+                    <div class="health-tag-row">
+                        <span class="health-tag">血检记录</span>
+                        <span class="health-tag">用药提醒</span>
+                        <span class="health-tag">体检归档</span>
+                        <span class="health-tag">健康评估</span>
+                    </div>
+                </div>
+            </div>
+
+            <p>六大精简档案分支：</p>
+            <ul>
+                <li><strong>① 用户基础信息卡片（含头像）</strong>：头像、身份、紧急联系人、过敏与遗传病史基础档案；</li>
+                <li><strong>② 常规血检动态监测</strong>：血压/血糖/血脂自动同步，生成周期波动折线，异常预警；</li>
+                <li><strong>③ 年度体检报告归档</strong>：上传纸质/电子体检单，AI通俗解读指标，历年报告对比；</li>
+                <li><strong>④ 慢病与智能用药管理</strong>：高血压、糖尿病专项档案，定时弹窗服药提醒；</li>
+                <li><strong>⑤ 既往诊疗记录归档</strong>：门诊、住院、理疗记录统一留存，线下就医一键调取；</li>
+                <li><strong>⑥ AI智能健康风险评估</strong>：整合全部体征数据，输出饮食、运动、复查个性化康养方案。</li>
+            </ul>
+        </div>
+
+        <!-- 康养服务体系 卡片内分点 -->
+        <div class="module" id="service">
+            <h2>核心康养服务体系</h2>
+            <p>线上线下打通全链路康养服务，覆盖自助线上、社区驿站、居家上门三大场景：</p>
+            <div class="card-list">
+                <div class="card">
+                    <h3>适老化极简交互体验</h3>
+                    <ul>
+                        <li>一键放大字体、高对比度护眼模式</li>
+                        <li>页面全文语音朗读，降低阅读门槛</li>
+                        <li>全页面无广告弹窗，层级跳转极简</li>
+                        <li>全流程操作3步以内完成，易学易上手</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>全周期健康档案管理</h3>
+                    <ul>
+                        <li>基础信息与头像档案录入</li>
+                        <li>智能设备体征数据自动同步</li>
+                        <li>历年体检、慢病、用药记录归档</li>
+                        <li>家属授权查看、AI健康风险测评</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>社区医护便民服务</h3>
+                    <ul>
+                        <li>线上免费轻问诊、社区驿站预约</li>
+                        <li>线下公益义诊、健康科普直播</li>
+                        <li>医护一对一专业康养咨询</li>
+                        <li>服务工单全程进度溯源、评价反馈</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>分层会员陪伴权益</h3>
+                    <ul>
+                        <li>普通/银龄/禧享三级梯度会员</li>
+                        <li>康养服务专属折扣、节日暖心慰问</li>
+                        <li>线下活动优先预约权限</li>
+                        <li>专属健康周报、一对一客服陪伴</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>普惠康养好物商城</h3>
+                    <ul>
+                        <li>适老辅具、滋补、居家护理刚需品</li>
+                        <li>平台严选无溢价，新人专属福利</li>
+                        <li>满减包邮、送货上门服务</li>
+                        <li>7天无理由退换，长者售后绿色通道</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>居家上门照护服务</h3>
+                    <ul>
+                        <li>助餐配送、居家日常保洁</li>
+                        <li>康复理疗、陪同医院就医</li>
+                        <li>居家适老化简易改造预约</li>
+                        <li>服务人员资质公示、线上评价管控</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 社区活动：标题放大，词云统一尺寸居中对齐 -->
+        <div class="module" id="activity">
+            <h2>社区多元康养活动体系</h2>
+            <p>联动属地社区养老服务中心，线上免费报名、签到、活动回看，四大固定活动类目：</p>
+
+            <li><strong>一、健康公益义诊类（医疗刚需向）</strong>
+                <div class="word-cloud-block">
+                    <span class="word-tag lg">公益义诊</span>
+                    <span class="word-tag md">慢病科普</span>
+                    <span class="word-tag md">骨密度筛查</span>
+                    <span class="word-tag sm">防诈骗讲座</span>
+                    <span class="word-tag sm">康复教学</span>
+                </div>
+                <ul>
+                    <li>季度社区免费血压、血糖、骨密度公益筛查</li>
+                    <li>慢病管控、节气养生、老年防诈骗专题科普讲座</li>
+                    <li>认知障碍筛查、居家康复动作实操公益教学</li>
+                </ul>
+            </li>
+            <li><strong>二、文体兴趣康养类（精神文娱向）</strong>
+                <div class="word-cloud-block">
+                    <span class="word-tag lg">兴趣社团</span>
+                    <span class="word-tag md">太极八段锦</span>
+                    <span class="word-tag md">书画戏曲</span>
+                    <span class="word-tag sm">智能手机课</span>
+                    <span class="word-tag sm">老电影沙龙</span>
+                </div>
+                <ul>
+                    <li>八段锦、老年健身操、太极拳户外康养教学班</li>
+                    <li>书法绘画、戏曲合唱、手工制作老年兴趣社团</li>
+                    <li>老年智能手机教学、经典老电影放映沙龙</li>
+                </ul>
+            </li>
+            <li><strong>三、邻里温情社交类（情感陪伴向）</strong>
+                <div class="word-cloud-block">
+                    <span class="word-tag lg">邻里陪伴</span>
+                    <span class="word-tag md">节日团圆宴</span>
+                    <span class="word-tag md">近郊徒步</span>
+                    <span class="word-tag sm">茶话会</span>
+                    <span class="word-tag sm">独居慰问</span>
+                </div>
+                <ul>
+                    <li>端午、重阳、元宵传统节日邻里团圆活动</li>
+                    <li>社区茶话会、老年轻徒步、邻里互助结对活动</li>
+                    <li>独居、空巢老人线下暖心陪伴慰问活动</li>
+                </ul>
+            </li>
+            <li><strong>四、便民志愿帮扶类（生活保障向）</strong>
+                <div class="word-cloud-block">
+                    <span class="word-tag lg">志愿帮扶</span>
+                    <span class="word-tag md">陪同就医</span>
+                    <span class="word-tag md">代购物资</span>
+                    <span class="word-tag sm">家电维修</span>
+                    <span class="word-tag sm">居家防滑改造</span>
+                </div>
+                <ul>
+                    <li>志愿者上门代购药品、生活物资、居家简易维修</li>
+                    <li>医院陪同挂号、取药、复诊全程协助服务</li>
+                    <li>居家防滑、防摔倒适老化设施免费排查指导</li>
+                </ul>
+            </li>
+        </div>
+
+        <!-- 产品差异化壁垒 -->
+        <div class="module">
+            <h2>产品核心差异化竞争壁垒</h2>
+            <p>✅ <strong>人文自然品牌壁垒</strong>：区别市面工具化康养平台，打造「松间静谧、岁月安然」高记忆点国风康养IP，以情感价值、人文温度建立用户心智，无法被标准化AI产品替代。</p>
+            <p>✅ <strong>PC大屏适老场景壁垒</strong>：精准卡位电脑大屏居家康养细分空白赛道；相较于移动端小屏软件，视觉负担更低、操作更舒缓，适配居家休闲养老场景。</p>
+            <p>✅ <strong>去商业化纯净体验壁垒</strong>：全平台零广告、零弹窗、无营销诱导；坚守康养服务初心，解决老年用户怕骚扰、怕诱导消费核心痛点。</p>
+            <p>✅ <strong>社区信任闭环壁垒</strong>：绑定线下社区官方公信力，线上平台+线下实体驿站双向联动，解决纯线上康养产品信任缺失行业难题。</p>
+            <p>✅ <strong>AI辅助轻量化智能壁垒</strong>：AI辅助健康解析、风险预警，不抢夺人工决策权限；人机协同兼顾智能效率与人文人工关怀。</p>
+        </div>
+
+        <!-- 个人中心：完整彩色折线/饼/柱状/频次/权益/家属图表 + 4阶运营阶梯 -->
+        <div class="module" id="user">
+            <h2>个人中心｜用户长效运营体系</h2>
+            <p>个人中心承载个人账户、权限管理、数据看板、服务订单全部闭环能力；配套精细化长效用户运营策略：</p>
+
+            <!-- 完整彩色数据看板，全部图表绘制完成 -->
+            <h3 style="margin-top:24px; font-size:24px;">个人健康数据总览看板</h3>
+            <div class="data-dashboard-wrap">
+                <div class="dash-top-item">体重<br/><span style="color:var(--blue);font-size:26px;">60.2kg</span></div>
+                <div class="dash-top-item">体脂率<br/><span style="color:var(--orange);font-size:26px;">33.1%</span></div>
+                <div class="dash-top-item">血压均值<br/><span style="color:var(--primary);font-size:26px;">125/78</span></div>
+                <div class="dash-top-item">心率<br/><span style="color:var(--purple);font-size:26px;">72次/分</span></div>
+                <div class="dash-top-item">活动次数<br/><span style="color:var(--pink);font-size:26px;">12次/月</span></div>
+                <div class="dash-top-item">服务订单<br/><span style="color:var(--dark-purple);font-size:26px;">8单</span></div>
+                <!-- 上排三大图表：折线、饼、柱状 -->
+                <div class="dash-big-wrap">
+                    <div class="dash-block">
+                        <h4 style="margin-bottom:12px;color:var(--blue);">月度体重趋势折线图</h4>
+                        <div class="line-chart-box"></div>
+                    </div>
+                    <div class="dash-block">
+                        <h4 style="margin-bottom:12px;color:var(--primary);">慢病指标分布饼图</h4>
+                        <div class="pie-chart-box"></div>
+                    </div>
+                    <div class="dash-block">
+                        <h4 style="margin-bottom:12px;color:var(--orange);">社区活动参与柱状图</h4>
+                        <div class="bar-chart-box">
+                            <span></span><span></span><span></span><span></span><span></span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 下排四张小饼图：用药、义诊、会员、家属绑定 -->
+                <div class="dash-small-row">
+                    <div class="dash-block">
+                        <h4 style="margin-bottom:12px;color:var(--purple);">用药记录频次饼图</h4>
+                        <div class="small-pie"></div>
+                    </div>
+                    <div class="dash-block">
+                        <h4 style="margin-bottom:12px;color:var(--pink);">义诊参与频次统计图</h4>
+                        <div class="small-pie" style="background: conic-gradient(var(--pink) 60%, #ddd 60%);"></div>
+                    </div>
+                    <div class="dash-block">
+                        <h4 style="margin-bottom:12px;color:var(--dark-purple);">会员权益使用数据</h4>
+                        <div class="small-pie" style="background: conic-gradient(var(--dark-purple) 45%, #ddd 45%);"></div>
+                    </div>
+                    <div class="dash-block">
+                        <h4 style="margin-bottom:12px;color:var(--primary-deep);">家属绑定数据占比</h4>
+                        <div class="small-pie" style="background: conic-gradient(var(--primary-deep) 70%, #ddd 70%);"></div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="margin-top:36px; font-size:24px;">长效用户运营四阶段阶梯流程</h3>
+            <!-- 4阶3D上升阶梯流程图 -->
+            <div class="operate-step-wrap">
+                <div class="step-item">
+                    <div class="step-box step1">01</div>
+                    <div class="step-line"></div>
+                    <div class="step-icon">🫁</div>
+                    <div class="step-desc">引流获客<br/>公益义诊免费服务拉新</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-box step2">02</div>
+                    <div class="step-line"></div>
+                    <div class="step-icon">💻</div>
+                    <div class="step-desc">留存沉淀<br/>健康档案绑定用户长期留存</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-box step3">03</div>
+                    <div class="step-line"></div>
+                    <div class="step-icon">📱</div>
+                    <div class="step-desc">分层运营<br/>三级会员差异化权益触达</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-box step4">04</div>
+                    <div class="step-line"></div>
+                    <div class="step-icon">🎯</div>
+                    <div class="step-desc">口碑裂变<br/>邻里互助自发推荐增长</div>
+                </div>
+            </div>
+
+            <ul style="margin-top:20px">
+                <li><strong>个人账户中心</strong>：头像修改、账号密码管理、家属授权绑定、隐私权限设置、服务协议查阅；</li>
+                <li><strong>个人数据看板</strong>：个人健康总览、已报名社区活动、康养服务订单、会员权益卡片统一汇总；</li>
+                <li><strong>长效运营策略</strong>：以社区口碑裂变作为核心增长路径，低门槛免费公益义诊完成拉新；健康档案绑定实现用户长期留存；三级会员体系分层精细化运营；无强制商业化营销，温和拉长用户生命周期价值。</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer>
+        松间知宁 · 人文适老化康养平台｜以温柔科技守护晚年岁月 &nbsp; Copyright 2026
+    </footer>
+
+    <script>
+        // 滚动区块渐入监听
+        const observeTarget = document.querySelectorAll(".module");
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("show");
+                }
+            });
+        }, { threshold: 0.12 });
+        observeTarget.forEach(item => scrollObserver.observe(item));
+
+        // 导航滚动背景切换
+        const headerDom = document.querySelector("header");
+        const navItems = document.querySelectorAll('.nav-item');
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 120) {
+                headerDom.classList.add("scroll-active");
+            } else {
+                headerDom.classList.remove("scroll-active");
+                navItems.forEach(nav=>nav.classList.remove('active'))
+                navItems[0].classList.add('active')
+            }
+            // 自动匹配当前滚动区块导航高亮
+            const sections = document.querySelectorAll('#health,#service,#activity,#user');
+            let current = "";
+            sections.forEach(sec=>{
+                const top = sec.offsetTop - 200;
+                if(window.scrollY >= top) current = sec.getAttribute('id');
+            })
+            navItems.forEach(nav=>{
+                nav.classList.remove('active')
+                if(nav.getAttribute('href') === `#${current}`) nav.classList.add('active')
+            })
+        })
+
+        // 全局减弱动画开关
+        const motionBtn = document.getElementById("motionBtn");
+        motionBtn.addEventListener("click", () => {
+            document.body.classList.toggle("reduce-motion");
+            motionBtn.innerText = document.body.classList.contains("reduce-motion") ? "开启动画" : "减弱动画";
+        })
+    </script>
+</body>
+</html>
