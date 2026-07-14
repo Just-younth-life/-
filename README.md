@@ -7,11 +7,11 @@
 全部项目低门槛复现，适用于学习实践、创业原型验证。
 
 ## 项目直达网页
-三思集：https://just-youth-life.github.io/AI-Creative-Trials/project-Ai-assissment-sansiji/
+三思集：https://Just-youth-life.github.io/AI-Creative-Trials/project-Ai-assissment-sansiji/
 
-松间知宁：https://just-youth-life.github.io/AI-Creative-Trials/project-sensor-songjianzhining/
+松间知宁：https://Just-youth-life.github.io/AI-Creative-Trials/project-sensor-songjianzhining/
 
-松间知宁-手机端原型交互预览页：https://just-youth-life.github.io/AI-Creative-Trials/project-sensor-viewing/
+松间知宁-手机端原型交互预览页：https://Just-youth-life.github.io/AI-Creative-Trials/project-sensor-viewing/
 
 ## Agent 智能体模块（轻量化多模型调度框架）
 本模块实现灰度策略驱动的AI智能体，支持多家海外大模型厂商接入，面向AI创意产品原型验证。
