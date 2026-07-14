@@ -15,15 +15,16 @@
 
 ## Agent 智能体模块（轻量化多模型调度框架）
 本模块实现灰度策略驱动的AI智能体，支持多家海外大模型厂商接入，面向AI创意产品原型验证。
-agent/
-├── config_const.py # 产品灰度开关常量定义
-├── config_loader.py # 配置加载、校验、单例管理
-├── schema.py # Pydantic 结构化数据模型
-├── exceptions.py # 统一业务异常
-├── utils.py # 通用工具函数
-├── prompt_templates.py # 动态提示词模板
-├── tool_provider.py # 多模型代理工厂（Azure / Bedrock / Minimax）
-└── agent_core.py # Agent 核心调度逻辑
+agent/config_const.py # 产品灰度开关常量定义
+agent/config_loader.py # 配置加载、校验、单例管理
+agent/schema.py # Pydantic 结构化数据模型
+
+agent/ exceptions.py # 统一业务异常
+
+agent/utils.py # 通用工具函数
+agent/prompt_templates.py # 动态提示词模板
+agent/tool_provider.py # 多模型代理工厂（Azure / Bedrock / Minimax）
+agent/agent_core.py # Agent 核心调度逻辑
 ### 核心亮点
 1. **灰度配置驱动功能**：无需修改业务代码、无需重启服务，通过开关控制推理策略、工具清洗逻辑，模拟真实产品A/B灰度运营；
 2. **工厂模式多模型兼容**：统一封装多家海外LLM代理，新增模型厂商只需要扩展代理类；
