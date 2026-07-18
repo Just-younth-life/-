@@ -24,8 +24,8 @@
 <div class="active-feedback" onclick="showAlert('即将上线','血糖记录功能即将上线，敬请期待')">血糖自测</div>
 <button onclick="showAlert('正在呼叫 120','模拟呼叫')">一键呼叫120</button>
 
-##改进方向
-移除全部行内 onclick，统一在 JS 内使用事件委托绑定
+## 改进方向
+### 移除全部行内 onclick，统一在 JS 内使用事件委托绑定
 封装全局点击拦截中间件，预留 AI 逻辑插入入口
 
 <!-- HTML 移除onclick，增加自定义标识data-xxx -->
