@@ -1,13 +1,3 @@
----
-AIGC:
-    Label: "1"
-    ContentProducer: 001191110102MACQD9K64018705
-    ProduceID: 1008690115909127_0-data_volume/7664985530379174194-files/所有对话/主对话/PRD-社交AI日程管理产品.md
-    ReservedCode1: ""
-    ContentPropagator: 001191110102MACQD9K64028705
-    PropagateID: 1008690115909127#1784772090167
-    ReservedCode2: ""
----
 # 产品需求文档（PRD）：AI 社交日程管理产品
 
 > 版本：v1.0 | 日期：2026-07-23 | 作者：Queen
